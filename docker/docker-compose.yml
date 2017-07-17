@@ -1,0 +1,40 @@
+version: '2.1'
+networks:
+  ci-network:
+
+services:
+  gerrit:
+    container_name: gerrit
+    hostname: gerrit
+    build:
+      context: ./gerrit
+      args:
+        - GERRIT_FRONT_END_URL=http://${PROXY_HOST}:8080
+    links:
+      - mail
+    ports:
+      - "8080:8080"
+      - "29418:29418"
+    networks:
+      - ci-network
+
+  jenkins:
+    container_name: jenkins
+    hostname: jenkins
+    build:
+      context: ./jenkins
+    links:
+      - gerrit
+    ports:
+      - "8081:8080"
+    environment:
+      GERRIT_FRONT_END_URL: http://${PROXY_HOST}:8080
+      GERRIT_HOST_NAME: ${PROXY_HOST}
+
+  mail:
+    container_name: mail
+    hostname: mail
+    build: ./mail
+    ports:
+      - "25:25"
+      - "80:80"

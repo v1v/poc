@@ -1,0 +1,9 @@
+version: '2.1'
+
+services:
+  dummy:
+    container_name: dummy
+    build:
+      context: ./dummy
+      args:
+        - GERRIT_FRONT_END_URL=http://${PROXY_HOST}:8080
