@@ -1,4 +1,4 @@
-version: '2.1'
+version: '3.0'
 networks:
   ci-network:
 
@@ -28,8 +28,8 @@ services:
     ports:
       - "8081:8080"
     environment:
-      GERRIT_FRONT_END_URL: http://${PROXY_HOST}:8080
-      GERRIT_HOST_NAME: ${PROXY_HOST}
+      - GERRIT_FRONT_END_URL=http://${PROXY_HOST}:8080
+      - GERRIT_HOST_NAME=${PROXY_HOST}
 
   mail:
     container_name: mail
